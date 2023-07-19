@@ -1,0 +1,82 @@
+Character Sheet Manager and Game Companion overview:
+SQL Database: I will create a SQL database to store character information. With tables for players, characters, abilities, items, and game sessions (if I time permits).
+Third-Party API: I will use Open5e API or D&D 5e API for the third party aspect of the assignment. They are free to use as they only reference the SRD rules which are free for everyone to use. There are also random name generators that I would look into implementing but that would only be if time permits as it isn’t essential, and I have looked less into how to implement that. 
+Sign-in Strategy: Would have users create an account to access their created characters with ease. 
+Game Companion Features: Would include features like rule lookups using the API(s) listed above, monster stat references, and maybe random treasure generators if I can find an API for that, because populating a bunch of tables on my own would take too much time.
+
+
+Table structure base idea:
+Users Table:
+user_id (Primary Key)
+username
+email
+password_hash (encrypted)
+Characters Table:
+character_id (Primary Key)
+user_id (Foreign Key referencing the Users table)
+name
+race
+class
+level
+experience_points
+alignment
+background
+hit_points
+armor_class
+strength
+dexterity
+constitution
+intelligence
+wisdom
+charisma
+Abilities Table:
+ability_id (Primary Key)
+character_id (Foreign Key referencing the Characters table)
+name
+description
+Items Table:
+item_id (Primary Key)
+character_id (Foreign Key referencing the Characters table)
+name
+description
+type
+rarity
+value
+properties
+Spells Table:
+spell_id (Primary Key)
+name
+level
+school
+casting_time
+range
+components
+duration
+description
+
+
+User Authentication:
+POST /api/signup: Create a new user account.
+POST /api/login: Log in an existing user and obtain an authentication token (JWT).
+GET /api/logout: Log out the currently logged-in user.
+Character Management:
+POST /api/characters: Create a new character for the authenticated user.
+GET /api/characters: Retrieve a list of characters belonging to the authenticated user.
+GET /api/characters/:characterId: Retrieve details of a specific character.
+PUT /api/characters/:characterId: Update details of a specific character.
+DELETE /api/characters/:characterId: Delete a specific character.
+Abilities and Items:
+POST /api/characters/:characterId/abilities: Add a new ability to a character.
+GET /api/characters/:characterId/abilities: Retrieve a list of abilities for a character.
+PUT /api/characters/:characterId/abilities/:abilityId: Update details of a specific ability.
+DELETE /api/characters/:characterId/abilities/:abilityId: Delete a specific ability from a character.
+POST /api/characters/:characterId/items: Add a new item to a character's inventory.
+GET /api/characters/:characterId/items: Retrieve a list of items in a character's inventory.
+PUT /api/characters/:characterId/items/:itemId: Update details of a specific item.
+DELETE /api/characters/:characterId/items/:itemId: Delete a specific item from a character's inventory.
+Spells:
+GET /api/spells: Retrieve a list of all available spells.
+GET /api/spells/:spellId: Retrieve details of a specific spell.
+Rule Lookup:
+GET /api/rules: Retrieve a list of available rule references.
+GET /api/rules/:ruleId: Retrieve details of a specific rule reference.
