@@ -1,9 +1,19 @@
 Character Sheet Manager and Game Companion overview
 ===================================================
-SQL Database: I will create a SQL database to store character information. With tables for players, characters, abilities, items, and game sessions (if I time permits).
-Third-Party API: I will use Open5e API or D&D 5e API for the third party aspect of the assignment. They are free to use as they only reference the SRD rules which are free for everyone to use. There are also random name generators that I would look into implementing but that would only be if time permits as it isn’t essential, and I have looked less into how to implement that. 
-Sign-in Strategy: Would have users create an account to access their created characters with ease. 
-Game Companion Features: Would include features like rule lookups using the API(s) listed above, monster stat references, and maybe random treasure generators if I can find an API for that, because populating a bunch of tables on my own would take too much time.
+SQL Database: I will create a SQL database to store character information. 
+With tables for players, characters, abilities, items, and game sessions 
+(if I time permits).
+Third-Party API: I will use Open5e API or D&D 5e API for the third party aspect
+ of the assignment. They are free to use as they only reference the SRD rules 
+ which are free for everyone to use. There are also random name generators that
+ I would look into implementing but that would only be if time permits as it isn’t
+ essential, and I have looked less into how to implement that. 
+Sign-in Strategy: Would have users create an account to access their created 
+characters with ease. 
+Game Companion Features: Would include features like rule lookups using the 
+API(s) listed above, monster stat references, and maybe random treasure generators 
+if I can find an API for that, because populating a bunch of tables on my own would 
+take too much time.
 
 
 Table structure base idea
