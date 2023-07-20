@@ -37,5 +37,9 @@ async function createCharacter(req, res) {
     createCharacter,
   };
 
+
+
+
+
 // Usage example
-searchRulesByName('spellcasting'); // Replace 'spellcasting' with your desired rule name
+searchRulesByName('spellcasting'); // Replace 'spellcasting' with desired rule name

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('./controller');
-const db = require('./db');
+const controller = require('../controllers/controller');
+const db = require('../db');
 
 
 // User Authentication Routes

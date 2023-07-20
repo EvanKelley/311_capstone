@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const routes = require('./routes');
+const routes = require('./routes/routes');
 
 // Middleware to parse incoming requests as JSON
 app.use(express.json());
