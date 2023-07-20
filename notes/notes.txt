@@ -111,6 +111,8 @@ Spells
 ======
 GET /api/spells: Retrieve a list of all available spells.
 GET /api/spells/:spellId: Retrieve details of a specific spell.
-Rule Lookup:
+
+Rule Lookup
+===========
 GET /api/rules: Retrieve a list of available rule references.
 GET /api/rules/:ruleId: Retrieve details of a specific rule reference.
