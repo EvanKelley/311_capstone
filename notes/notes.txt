@@ -31,7 +31,7 @@ character_id (Primary Key)
 user_id (Foreign Key referencing the Users table)
 name
 race
-class
+characterClass
 level
 experience_points
 alignment
