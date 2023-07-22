@@ -1,29 +1,9 @@
 CREATE table users (
     user_id INTEGER PRIMARY KEY auto_increment,
-    username VARCHAR(25),
-    email REQUIRED VARCHAR(100),
-    password_hash
+    email REQUIRED UNIQUE VARCHAR(100),
+    password VARCHAR(1000)
 );
 
--- CREATE table characters (
---     character_id integer primary key auto_increment,
---     user_id (Foreign Key referencing the Users table),
---     name varchar(100),
---     race varchar(100),
---     class varchar(100),
---     level integer,
---     experience_points integer,
---     alignment varchar(20),
---     background varchar(100),
---     hit_points integer,
---     armor_class integer,
---     strength integer,
---     dexterity integer,
---     constitution integer,
---     intelligence integer,
---     wisdom integer,
---     charisma integer
--- );
 
 CREATE TABLE characters (
     character_id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -35,6 +15,7 @@ CREATE TABLE characters (
     alignment VARCHAR(20),
     background VARCHAR(100),
 );
+
 
 CREATE TABLE character_attributes (
     attribute_id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -53,6 +34,7 @@ CREATE table abilities (
     FOREIGN KEY (character_id) REFERENCES characters(character_id)
 );
 
+
 CREATE table items (
     item_id INTEGER PRIMARY KEY,
     character_id INTEGER,
@@ -65,6 +47,7 @@ CREATE table items (
     FOREIGN KEY (character_id) REFERENCES characters(character_id)
 );
 
+
 CREATE table spells (
     spell_id INTEGER PRIMARY KEY,
     spellName VARCHAR(100),
@@ -76,6 +59,7 @@ CREATE table spells (
     duration VARCHAR(100),
     spellDescription VARCHAR(2500)
 );
+
 
 CREATE TABLE character_spells (
     character_id INTEGER,
