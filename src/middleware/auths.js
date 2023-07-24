@@ -23,8 +23,8 @@ let checkJWT = function(req , res, next){
         console.log("Failed to verify JWT", err);
         res.sendStatus(401);
     }
-}
+};
 
 module.exports = {
     checkJWT
-}
+};

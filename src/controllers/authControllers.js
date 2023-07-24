@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 
 
 // Register a new user
-// ===================
+
 // accept the email and password
 // store the email and hash
 let registerUser = async function(req, res){
@@ -50,13 +50,12 @@ let registerUser = async function(req, res){
 
  
 // Login existing user
-// ===================
 let loginUser = function(req, res){
 
     let email = req.body.email;
     let password = req.body.password;
   
-    let sql = "select id, password from users where email = ?";
+    let sql = "select user_id, hash from users where email = ?";
     let params = [email];
   
     db.query(sql, params, async function(err, results){
@@ -66,10 +65,10 @@ let loginUser = function(req, res){
           console.log("Failed to fetch hash for user", err);
       } else if (results.length > 1) {
           console.log("Returned more than 1 user for the email", email);
-      } else if (results.length == 1) {
+      } else if (results.length === 1) {
           storedHash = results[0].hash;
-          storedId = results[0].id;
-      } else if (results.length == 0) {
+          storedId = results[0].user_id;
+      } else if (results.length === 0) {
           console.log("Did not find a user for email", email);
       }
   
@@ -78,7 +77,7 @@ let loginUser = function(req, res){
         if(pass){
           // Generate a token and send it back
           let token = {
-            id: storedId,
+            user_id: storedId,
             email: email
           }; 
           

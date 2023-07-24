@@ -5,6 +5,25 @@ const db = require('../db');
 
 
 
+// Retrieve a list of characters belonging to a user
+async function getCharacters(req, res) {
+  // Assuming implementation of user authentication and have obtained the user's ID
+  const userId = req.user.id;
+
+  try {
+    // Fetch characters from the database for the authenticated user
+    const characters = await db.query('SELECT * FROM characters WHERE user_id = ?', [userId]);
+
+    // Send the list of characters as the response
+    res.status(200).json(characters);
+  } catch (error) {
+    // Handle error, such as database query issue
+    console.error('Error fetching characters:', error.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+} 
+
+
 // Create a new character
 async function createCharacter(req, res) {
   const { name, race, characterClass, ...otherAttributes } = req.body;
@@ -39,25 +58,6 @@ async function createCharacter(req, res) {
     return res.status(500).json({ error: 'Internal server error' });
   }
 };
-
-
-// Retrieve a list of characters belonging to a user
-async function getCharacters(req, res) {
-  // Assuming implementation of user authentication and have obtained the user's ID
-  const userId = req.user.id;
-
-  try {
-    // Fetch characters from the database for the authenticated user
-    const characters = await db.query('SELECT * FROM characters WHERE user_id = ?', [userId]);
-
-    // Send the list of characters as the response
-    res.status(200).json(characters);
-  } catch (error) {
-    // Handle error, such as database query issue
-    console.error('Error fetching characters:', error.message);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-} 
 
 
 // Retreive specific character
@@ -130,6 +130,24 @@ async function deleteCharacter(req, res) {
 };
 
 
+// Retrieve a list of abilities for a character
+async function getAbilities(req, res) {
+  const characterId = req.params.characterId; // Extract the characterId from request parameters
+
+  try {
+    // Fetch the abilities from the database for the specific character
+    const abilities = await db.query('SELECT * FROM abilities WHERE character_id = ?', [characterId]);
+
+    // Send the list of abilities as the response
+    res.status(200).json(abilities);
+  } catch (error) {
+    // Handle error, such as database query issue
+    console.error('Error fetching abilities:', error.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
 // Add a new ability to a character
 async function addAbility(req, res) {
   const { characterId } = req.params;
@@ -152,24 +170,6 @@ async function addAbility(req, res) {
   }
 };
 
-
-
-// Retrieve a list of abilities for a character
-async function getAbilities(req, res) {
-  const characterId = req.params.characterId; // Extract the characterId from request parameters
-
-  try {
-    // Fetch the abilities from the database for the specific character
-    const abilities = await db.query('SELECT * FROM abilities WHERE character_id = ?', [characterId]);
-
-    // Send the list of abilities as the response
-    res.status(200).json(abilities);
-  } catch (error) {
-    // Handle error, such as database query issue
-    console.error('Error fetching abilities:', error.message);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-};
 
 // Update details of a specific ability
 async function updateAbility(req, res) {
@@ -220,6 +220,24 @@ async function deleteAbility(req, res) {
 };
 
 
+// Retrieve a list of items in a character's inventory
+async function getItems(req, res) {
+  const characterId = req.params.characterId; // Extract the characterId from request parameters
+
+  try {
+    // Fetch the items from the database for the specific character
+    const items = await db.query('SELECT * FROM items WHERE character_id = ?', [characterId]);
+
+    // Send the list of items as the response
+    res.status(200).json(items);
+  } catch (error) {
+    // Handle error, such as database query issue
+    console.error('Error fetching items:', error.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
 // Add a new item to a character's inventory
 async function addItem(req, res) {
   const characterId = req.params.characterId; // Extract the characterId from request parameters
@@ -243,22 +261,6 @@ async function addItem(req, res) {
   }
 }; 
 
-// Retrieve a list of items in a character's inventory
-async function getItems(req, res) {
-  const characterId = req.params.characterId; // Extract the characterId from request parameters
-
-  try {
-    // Fetch the items from the database for the specific character
-    const items = await db.query('SELECT * FROM items WHERE character_id = ?', [characterId]);
-
-    // Send the list of items as the response
-    res.status(200).json(items);
-  } catch (error) {
-    // Handle error, such as database query issue
-    console.error('Error fetching items:', error.message);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-};
 
 // Update details of a specific item
 async function updateItem(req, res) {
@@ -310,21 +312,39 @@ async function deleteItem(req, res) {
 
 
 // Retrieve a list of all available spells
+// async function getSpells(req, res) {
+//   try {
+//     // Make a GET request to the API endpoint for spells
+//     const response = await axios.get(`${API_BASE_URL}spells`);
+//     const spellsList = response.data;
+
+//     // Send the list of spells as the response
+//     res.status(200).json(spellsList);
+//   } catch (error) {
+//     // Handle error, such as API connection issue
+//     console.error('Error fetching spells:', error.message);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// };
 async function getSpells(req, res) {
   try {
-    // Make a GET request to the API endpoint for spells
-    const response = await axios.get(`${API_BASE_URL}spells`);
-    const spellsList = response.data;
+    console.log('Request to /test-spells received.');
+    // Sample static data of spells (replace this with your actual data from the API)
+    const spells = [
+      { id: 1, name: 'Fireball', level: 3 },
+      { id: 2, name: 'Magic Missile', level: 1 },
+      { id: 3, name: 'Cure Wounds', level: 1 },
+      // Add more spells here...
+    ];
 
     // Send the list of spells as the response
-    res.status(200).json(spellsList);
+    res.status(200).json(spells);
   } catch (error) {
     // Handle error, such as API connection issue
     console.error('Error fetching spells:', error.message);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-
 
 
 // Retrieve details of a specific spell
@@ -353,6 +373,7 @@ async function getSpellByName(spellName) {
   }
 };
 
+
 // Retrieve a list of available rule references
 async function getRules(req, res) {
   try {
@@ -368,6 +389,7 @@ async function getRules(req, res) {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 
 // Look up a specific rule reference
 async function getRuleByName(ruleName) {
@@ -396,21 +418,22 @@ async function getRuleByName(ruleName) {
 
 
 // Exports
-  module.exports = {
-    createCharacter,
-    getCharacterById,
-    updateCharacter,
-    deleteCharacter,
-    addAbility,
-    getAbilities,
-    updateAbility,
-    deleteAbility,
-    addItem,
-    getItems,
-    updateItem,
-    deleteItem,
-    getSpells,
-    getSpellByName,
-    getRules,
-    getRuleByName
-  };
+module.exports = {
+  getCharacters,
+  createCharacter,
+  getCharacterById,
+  updateCharacter,
+  deleteCharacter,
+  getAbilities,
+  addAbility,
+  updateAbility,
+  deleteAbility,
+  getItems,
+  addItem,
+  updateItem,
+  deleteItem,
+  getSpells,
+  getSpellByName,
+  getRules,
+  getRuleByName
+};
