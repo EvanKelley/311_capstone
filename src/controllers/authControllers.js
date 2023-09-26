@@ -11,6 +11,7 @@ const jwt = require("jsonwebtoken");
 // accept the email and password
 // store the email and hash
 let registerUser = async function(req, res){
+  console.log ("inside register route")
   // get the email and password for the request
   let email = req.body.email;
   let password = req.body.password;
@@ -27,23 +28,31 @@ let registerUser = async function(req, res){
     hash = await argon.hash(password);
   }catch(err){
     // if for some reason the conversion fails, 
-    // log the error, and resonpse with 500 code,
+    // log the error, and response with 500 code,
     console.log("Failed to hash the password", err);
     res.sendStatus(500);
     return;
   }
 
   // I have the hash and email
+  console.log('before query')
   let sql = "insert into users (email, hash) values (?, ?)";
   let params = [email, hash];
 
-  db.query(sql, params, function(err, results){
+  db.query(sql, params, (err, results) => {
+    console.log(results, 'these are the results')
+    console.log(err, 'these are the error')
     if(err){
       console.log("Failed to register a user", err);
       res.sendStatus(500);
-    } else {
-      res.sendStatus(204);
-    }
+    } 
+      // res.sendStatus(204);
+      console.log(results);
+      res.send("It worked");
+      // console.log("Work please");
+      // res.json(results);
+      // res.json(results).status(200).end()
+    
   });
  };
 

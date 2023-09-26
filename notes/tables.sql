@@ -7,7 +7,7 @@ CREATE table users (
 
 CREATE TABLE characters (
     character_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    user_id INTEGER,
+    user_id INTEGER FOREIGN KEY,
     characterName VARCHAR(100),
     race VARCHAR(100),
     class VARCHAR(100),
