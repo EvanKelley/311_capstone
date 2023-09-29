@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/controller');
+const authMiddleware = require('../middleware/auths')
 const db = require('../db');
 
 
@@ -9,35 +10,35 @@ const db = require('../db');
 // Character Management Routes
 
 // Retrieve a list of characters belonging to the authenticated user
-router.get("/api/characters", controller.getCharacters);
+router.get("/characters", authMiddleware.checkJWT, controller.getCharacters);
 // Create a new character for the authenticated user
-router.post("/api/characters", controller.createCharacter);
+router.post("/characters", authMiddleware.checkJWT, controller.createCharacter);
 // Retrieve details of a specific character
-router.get("/api/characters/:characterId", controller.getCharacterById);
+router.get("/characters/:characterId", authMiddleware.checkJWT, controller.getCharacterById);
 // Update details of a specific character
-router.put("/api/characters/:characterId", controller.updateCharacter);
+router.put("/characters/:characterId", authMiddleware.checkJWT, controller.updateCharacter);
 // Delete a specific character
-router.delete("/api/characters/:characterId", controller.deleteCharacter);
+router.delete("/characters/:characterId", authMiddleware.checkJWT, controller.deleteCharacter);
 
 
 // Abilities and Items Routes
 
 // Retrieve a list of abilities for a character
-router.get("/api/characters/:characterId/abilities", controller.getAbilities);
+router.get("/characters/:characterId/abilities", controller.getAbilities);
 // Add a new ability to a character
-router.post("/api/characters/:characterId/abilities", controller.addAbility);
+router.post("/characters/:characterId/abilities", controller.addAbility);
 // Update details of a specific ability
-router.put("/api/characters/:characterId/abilities/:abilityId", controller.updateAbility);
+router.put("/characters/:characterId/abilities/:abilityId", controller.updateAbility);
 // Delete a specific ability from a character
-router.delete("/api/characters/:characterId/abilities/:abilityId", controller.deleteAbility);
+router.delete("/characters/:characterId/abilities/:abilityId", controller.deleteAbility);
 // Add a new item to a character's inventory
-router.get("/api/characters/:characterId/items", controller.getItems);
+router.get("/characters/:characterId/items", controller.getItems);
 // Update details of a specific item
-router.post("/api/characters/:characterId/items", controller.addItem);
+router.post("/characters/:characterId/items", controller.addItem);
 // Retrieve a list of items in a character's inventory
-router.put("/api/characters/:characterId/items/:itemId", controller.updateItem);
+router.put("/characters/:characterId/items/:itemId", controller.updateItem);
 // Delete a specific item from a character's inventory
-router.delete("/api/characters/:characterId/items/:itemId", controller.deleteItem);
+router.delete("/characters/:characterId/items/:itemId", controller.deleteItem);
 
 // Spell Routes
 

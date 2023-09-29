@@ -5,11 +5,14 @@ const routes = require('./routes/routes');
 const authRoutes = require("./routes/authRoutes");
 const errorHandler = require("./middleware/errorHandler")
 
+// Load environment variables from a .env file
+require('dotenv').config();
+
 // Middleware to parse incoming requests as JSON
 app.use(express.json());
 
 // Include your routes
-app.use('/api', routes);
+app.use('/', routes);
 app.use('/auth', authRoutes);
 
 app.get('/', (req, res) => {

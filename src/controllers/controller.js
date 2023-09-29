@@ -24,11 +24,47 @@ async function getCharacters(req, res) {
 } 
 
 
-// Create a new character
+// // Create a new character
+// async function createCharacter(req, res) {
+//   const { name, race, characterClass, ...otherAttributes } = req.body;
+
+//   const characterData = [
+//     name,
+//     race,
+//     characterClass,
+//     otherAttributes.level,
+//     otherAttributes.experience_points,
+//     otherAttributes.alignment,
+//     otherAttributes.background,
+//     otherAttributes.hit_points,
+//     otherAttributes.armor_class,
+//     otherAttributes.strength,
+//     otherAttributes.dexterity,
+//     otherAttributes.constitution,
+//     otherAttributes.intelligence,
+//     otherAttributes.wisdom,
+//     otherAttributes.charisma,
+//   ];
+
+//   try {
+//     // Perform database insertion to create the new character
+//     const result = await db.query('INSERT INTO characters (name, race, class, level, experience_points, alignment, background, hit_points, armor_class, strength, dexterity, constitution, intelligence, wisdom, charisma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [...characterData]);
+
+//     // If the character was successfully created, return a success response
+//     return res.status(201).json({ success: true, message: 'Character created successfully', characterId: result.insertId });
+//   } catch (error) {
+//     // Handle any errors that occurred during character creation
+//     console.error('Error creating character:', error);
+//     return res.status(500).json({ error: 'Internal server error' });
+//   }
+// };
+
 async function createCharacter(req, res) {
   const { name, race, characterClass, ...otherAttributes } = req.body;
+  const userId = req.user.id; 
 
   const characterData = [
+    userId,
     name,
     race,
     characterClass,
@@ -47,17 +83,29 @@ async function createCharacter(req, res) {
   ];
 
   try {
-    // Perform database insertion to create the new character
-    const result = await db.query('INSERT INTO characters (name, race, class, level, experience_points, alignment, background, hit_points, armor_class, strength, dexterity, constitution, intelligence, wisdom, charisma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [...characterData]);
+    // Log the incoming request and user ID for debugging purposes.
+    console.log('Received character creation request for user ID:', userId);
 
-    // If the character was successfully created, return a success response
-    return res.status(201).json({ success: true, message: 'Character created successfully', characterId: result.insertId });
+    // Perform database insertion to create the new character
+    const result = await db.query(
+      'INSERT INTO characters (user_id, name, race, class, level, experience_points, alignment, background, hit_points, armor_class, strength, dexterity, constitution, intelligence, wisdom, charisma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [...characterData]
+    );
+
+    // If the character was successfully created, log and return a success response
+    const characterId = result.insertId;
+    console.log('Character created successfully. Character ID:', characterId);
+    return res.status(201).json({ success: true, message: 'Character created successfully', characterId });
   } catch (error) {
-    // Handle any errors that occurred during character creation
+    // Log the error for debugging purposes.
     console.error('Error creating character:', error);
+
+    // Handle any errors that occurred during character creation
     return res.status(500).json({ error: 'Internal server error' });
   }
-};
+}
+
+
 
 
 // Retreive specific character
