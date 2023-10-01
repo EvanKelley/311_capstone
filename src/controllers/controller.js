@@ -8,7 +8,7 @@ const db = require('../db');
 // Retrieve a list of characters belonging to a user
 async function getCharacters(req, res) {
   // Assuming implementation of user authentication and have obtained the user's ID
-  const userId = req.user.id;
+  const userId = req.user.user_id;
 
   try {
     // Fetch characters from the database for the authenticated user
@@ -61,7 +61,7 @@ async function getCharacters(req, res) {
 
 async function createCharacter(req, res) {
   const { name, race, characterClass, ...otherAttributes } = req.body;
-  const userId = req.user.id; 
+  const userId = req.user.user_id; 
 
   const characterData = [
     userId,

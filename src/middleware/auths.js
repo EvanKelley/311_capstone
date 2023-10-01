@@ -27,7 +27,7 @@ const checkJWT = function (req, res, next) {
     }
 
     // If the token is valid, store the decoded payload in req.userinfo
-    req.userinfo = decoded;
+    req.user = decoded;
 
     // Continue processing the request
     next();
