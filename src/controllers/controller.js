@@ -82,27 +82,32 @@ async function createCharacter(req, res) {
     otherAttributes.charisma,
   ];
 
-  try {
+
     // Log the incoming request and user ID for debugging purposes.
     console.log('Received character creation request for user ID:', userId);
 
     // Perform database insertion to create the new character
-    const result = await db.query(
+    db.query(
       'INSERT INTO characters (user_id, name, race, class, level, experience_points, alignment, background, hit_points, armor_class, strength, dexterity, constitution, intelligence, wisdom, charisma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [...characterData]
+      [...characterData],
+      (err, results)=>{
+        if(err){
+          console.error('Error creating character:', err);
+          return res.status(500).json({ msg: 'Internal server error', error:err });
+        }
+        console.log(results)
+        // If the character was successfully created, log and return a success response
+        const characterId = results.insertId;
+        console.log('Character created successfully. Character ID:', characterId);
+        return res.status(201).json({ success: true, message: 'Character created successfully', characterId });
+      }
     );
-
-    // If the character was successfully created, log and return a success response
-    const characterId = result.insertId;
-    console.log('Character created successfully. Character ID:', characterId);
-    return res.status(201).json({ success: true, message: 'Character created successfully', characterId });
-  } catch (error) {
+      
     // Log the error for debugging purposes.
-    console.error('Error creating character:', error);
+   
 
     // Handle any errors that occurred during character creation
-    return res.status(500).json({ error: 'Internal server error' });
-  }
+    
 }
 
 

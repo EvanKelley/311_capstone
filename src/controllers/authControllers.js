@@ -49,7 +49,7 @@ let registerUser = async function (req, res) {
     } else {
       // res.sendStatus(204);
       console.log(results);
-      res.send("User registered successfully");
+      res.json({id:results.insertId,msg:"User registered successfully"});
     }
   });
 };
