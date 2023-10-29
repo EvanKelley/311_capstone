@@ -97,7 +97,11 @@ let loginUser = function (req, res) {
         };
 
         const signedToken = jwt.sign(tokenPayload, process.env.JWT_SECRET, tokenOptions);
-        res.json(signedToken);
+        // res.json(signedToken);
+        res.json({
+          token: signedToken,
+          userId: storedId
+        });
       } else {
         console.log("Password verification failed for email:", email);
         res.sendStatus(401); // Unauthorized

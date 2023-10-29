@@ -12,10 +12,15 @@ async function getCharacters(req, res) {
 
   try {
     // Fetch characters from the database for the authenticated user
-    const characters = await db.query('SELECT * FROM characters WHERE user_id = ?', [userId]);
+    // const characters = await db.query('SELECT * FROM characters WHERE user_id = ?', [userId]);
+   db.query('SELECT * FROM characters WHERE user_id = ?', [userId], (err, characters)=>{
+    if (err){
+      res.status(400).json({err})
+    }
+     res.status(200).json(characters);
+   });
 
     // Send the list of characters as the response
-    res.status(200).json(characters);
   } catch (error) {
     // Handle error, such as database query issue
     console.error('Error fetching characters:', error.message);
@@ -87,28 +92,29 @@ async function createCharacter(req, res) {
     console.log('Received character creation request for user ID:', userId);
 
     // Perform database insertion to create the new character
-    db.query(
+    try{
+    const results = await db.query(
       'INSERT INTO characters (user_id, name, race, class, level, experience_points, alignment, background, hit_points, armor_class, strength, dexterity, constitution, intelligence, wisdom, charisma) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [...characterData],
-      (err, results)=>{
-        if(err){
-          console.error('Error creating character:', err);
-          return res.status(500).json({ msg: 'Internal server error', error:err });
-        }
-        console.log(results)
-        // If the character was successfully created, log and return a success response
-        const characterId = results.insertId;
-        console.log('Character created successfully. Character ID:', characterId);
-        return res.status(201).json({ success: true, message: 'Character created successfully', characterId });
-      }
-    );
-      
-    // Log the error for debugging purposes.
-   
+      [...characterData]);
 
-    // Handle any errors that occurred during character creation
-    
-}
+      return res.status(201).json({ success: true, message: 'Character created successfully', characterId: results.insertId  });
+    } catch(err){
+      console.error('Error creating character:', err);
+      return res.status(500).json({ msg: 'Internal server error', error:err });
+    }
+      // (err, results)=>{
+      //   if(err){
+
+      //   }
+      //   console.log(results)
+        // If the character was successfully created, log and return a success response
+        // const characterId = results.insertId;
+        // console.log('Character created successfully. Character ID:', characterId);
+
+  }
+    // }
+    // );    
+
 
 
 

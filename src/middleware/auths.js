@@ -2,9 +2,9 @@ require('dotenv').config();
 const jwt = require("jsonwebtoken");
 
 const checkJWT = function (req, res, next) {
-  let value = req.get("Authorization");
+  let value = req.headers.authorization;
   let signedToken;
-
+  console.log(value, "check jwt value****")
   if (value) {
     let parts = value.split(" ");
     if (parts[0] === "Bearer" && parts[1]) {
