@@ -15,6 +15,7 @@ require('dotenv').config();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 // Middleware to parse incoming requests as JSON
 app.use(express.json());
 
