@@ -11,9 +11,10 @@ const errorHandler = require("./middleware/errorHandler")
 // Load environment variables from a .env file
 require('dotenv').config();
 
-// Bring in cors
+// Bring in cors & bodyParser
 app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 // Middleware to parse incoming requests as JSON
 app.use(express.json());
 
