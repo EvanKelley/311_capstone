@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 const routes = require('./routes/routes');
@@ -6,16 +7,17 @@ const authRoutes = require("./routes/authRoutes");
 const errorHandler = require("./middleware/errorHandler")
 
 
+
 // Load environment variables from a .env file
 require('dotenv').config();
 
 // Bring in cors
 app.use(cors());
-
+app.use(bodyParser.json());
 // Middleware to parse incoming requests as JSON
 app.use(express.json());
 
-// Include your routes
+// Include routes
 app.use('/', routes);
 app.use('/auth', authRoutes);
 
