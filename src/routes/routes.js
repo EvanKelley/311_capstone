@@ -67,4 +67,4 @@ router.get("/api/rules/:ruleId", controller.getRuleByName);
 
 
 // Export
-module.exports = routes;
+module.exports = router;
